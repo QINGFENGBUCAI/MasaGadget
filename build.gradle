@@ -91,7 +91,8 @@ ext {
     }
 
     getVersion = { Project proj ->
-        return "${proj.property("mod.version")}.${getVersionPatch(proj == rootProject ? [] : [proj.projectDir.name])}"
+        def patch = getVersionPatch(proj == rootProject ? [] : [proj.projectDir.name])
+        return patch == 0 ? "${proj.property("mod.version")}" : "${proj.property("mod.version")}.${patch}"
     }
 
     getVersionWithCommitHash = { Project proj ->

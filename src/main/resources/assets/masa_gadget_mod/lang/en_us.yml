@@ -50,6 +50,9 @@ masa_gadget_mod:
       renderZombieVillagerConvertTime:
         name: renderZombieVillagerConvertTime
         comment: Render convert time on zombie villager.
+      renderInfoSeeThrough:
+        name: renderInfoSeeThrough
+        comment: Render entity info (villager restock time, enchanted book trade, zombie villager convert time) through blocks.
       syncAllEntityData:
         name: syncAllEntityData
         comment: Use §7pcaSyncProtocol§r to sync all entity data.

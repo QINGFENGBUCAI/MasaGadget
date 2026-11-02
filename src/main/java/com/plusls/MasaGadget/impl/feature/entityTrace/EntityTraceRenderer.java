@@ -49,6 +49,16 @@ public class EntityTraceRenderer implements RenderEntityListener, RenderLevelLis
 
     @Override
     public void postRenderLevel(ClientLevel level, LevelRenderContext renderContext) {
+        //#if MC >= 26.3
+        //$$ // MC 26.3 renders the level inside its own frame graph, so geometry submitted from
+        //$$ // this hook is overwritten before the frame is presented. It is drawn in
+        //$$ // MixinGameRendererPostLevel instead.
+        //#else
+        this.drawQueued();
+        //#endif
+    }
+
+    public void drawQueued() {
         float partialTick = top.hendrixshen.magiclib.util.minecraft.render.RenderUtil.getPartialTick();
 
         for (Entity entity : this.queue) {
@@ -83,6 +93,10 @@ public class EntityTraceRenderer implements RenderEntityListener, RenderLevelLis
             }
         }
 
+        this.queue.clear();
+    }
+
+    public void clearQueued() {
         this.queue.clear();
     }
 }

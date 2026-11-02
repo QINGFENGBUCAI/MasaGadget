@@ -74,6 +74,9 @@ public class Configs {
     public static MagicConfigBooleanHotkeyed renderZombieVillagerConvertTime = Configs.cf.newConfigBooleanHotkeyed("renderZombieVillagerConvertTime", false);
 
     @Config(category = ConfigCategory.GENERIC)
+    public static MagicConfigBoolean renderInfoSeeThrough = Configs.cf.newConfigBoolean("renderInfoSeeThrough", false);
+
+    @Config(category = ConfigCategory.GENERIC)
     public static MagicConfigHotkey syncAllEntityData = Configs.cf.newConfigHotkey("syncAllEntityData");
 
     // MALILIB

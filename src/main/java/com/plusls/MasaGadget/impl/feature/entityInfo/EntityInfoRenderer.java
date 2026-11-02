@@ -60,6 +60,16 @@ public class EntityInfoRenderer implements RenderEntityListener, RenderLevelList
 
     @Override
     public void postRenderLevel(ClientLevel level, LevelRenderContext renderContext) {
+        //#if MC >= 26.3
+        //$$ // MC 26.3 renders the level inside its own frame graph, so text submitted from this
+        //$$ // hook is overwritten before the frame is presented. It is drawn in
+        //$$ // MixinGameRendererPostLevel instead.
+        //#else
+        this.drawQueued();
+        //#endif
+    }
+
+    public void drawQueued() {
         float partialTick = RenderUtil.getPartialTick();
 
         for (Entity entity : this.queue) {
@@ -76,7 +86,8 @@ public class EntityInfoRenderer implements RenderEntityListener, RenderLevelList
                 }
 
                 if (Configs.renderTradeEnchantedBook.getBooleanValue()) {
-                    VillagerTradeEnchantedBookInfo.getInfo(villager).forEach(renderer::addLine);
+                    java.util.List<Component> bookLines = VillagerTradeEnchantedBookInfo.getInfo(villager);
+                    bookLines.forEach(renderer::addLine);
                 }
 
                 if (villager.isSleeping()) {
@@ -88,7 +99,7 @@ public class EntityInfoRenderer implements RenderEntityListener, RenderLevelList
 
                 renderer.bgColor((int) (Minecraft.getInstance().options.getBackgroundOpacity(0.25F) * 255.0F) << 24)
                         .fontScale(0.015F)
-                        .seeThrough()
+                        .seeThrough(Configs.renderInfoSeeThrough.getBooleanValue())
                         .render();
             } else if (entity instanceof ZombieVillager) {
                 ZombieVillager zombieVillager = MiscUtil.cast(SyncUtil.syncEntityDataFromIntegratedServer(entity));
@@ -96,11 +107,15 @@ public class EntityInfoRenderer implements RenderEntityListener, RenderLevelList
                         .text(ZombieVillagerConvertTimeInfo.getInfo(zombieVillager))
                         .bgColor((int) (Minecraft.getInstance().options.getBackgroundOpacity(0.25F) * 255.0F) << 24)
                         .fontScale(0.015F)
-                        .seeThrough()
+                        .seeThrough(Configs.renderInfoSeeThrough.getBooleanValue())
                         .render();
             }
         }
 
+        this.queue.clear();
+    }
+
+    public void clearQueued() {
         this.queue.clear();
     }
 }

@@ -21,6 +21,8 @@ import net.minecraft.world.item.trading.MerchantOffers;
 //#endif
 // CHECKSTYLE.ON: ImportOrder
 
+import java.util.ArrayList;
+
 public class VillagerNextRestockTimeInfo {
     public static Component getInfo(@NotNull Villager villager) {
         long nextRestockTime;
@@ -91,7 +93,8 @@ public class VillagerNextRestockTimeInfo {
                 return false;
             }
 
-            for (MerchantOffer offer : offers) {
+            // 先拷贝再遍历：渲染线程读取时，集成服务端线程每 tick 都可能修改该列表
+            for (MerchantOffer offer : new ArrayList<>(offers)) {
                 if (offer.isOutOfStock()) {
                     return true;
                 }

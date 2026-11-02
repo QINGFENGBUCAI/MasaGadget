@@ -85,6 +85,10 @@ public class RenderUtil {
         //#elseif MC > 12006
         //$$ builder.addVertex((float) pos1.x(), (float) pos1.y(), (float) pos1.z()).setColor(color.r, color.g, color.b, color.a);
         //$$ builder.addVertex((float) pos2.x(), (float) pos2.y(), (float) pos2.z()).setColor(color.r, color.g, color.b, color.a);
+        //#else
+        builder.vertex(pos1.x(), pos1.y(), pos1.z()).color(color.r, color.g, color.b, color.a).endVertex();
+        builder.vertex(pos2.x(), pos2.y(), pos2.z()).color(color.r, color.g, color.b, color.a).endVertex();
+        //#endif
         //#if MC > 12104
         //$$
         //$$ try {
@@ -99,12 +103,9 @@ public class RenderUtil {
         //$$ } catch (Exception ignored) {
         //$$     // ignore
         //$$ }
-        //#else
+        //#elseif MC > 12006
         //$$ RenderUtil.end(builder);
-        //#endif
         //#else
-        builder.vertex(pos1.x(), pos1.y(), pos1.z()).color(color.r, color.g, color.b, color.a).endVertex();
-        builder.vertex(pos2.x(), pos2.y(), pos2.z()).color(color.r, color.g, color.b, color.a).endVertex();
         tesselator.end();
         //#endif
     }

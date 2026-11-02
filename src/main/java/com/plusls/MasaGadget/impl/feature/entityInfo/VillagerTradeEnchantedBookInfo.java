@@ -41,6 +41,7 @@ import net.minecraft.network.chat.MutableComponent;
 //#endif
 // CHECKSTYLE.ON: ImportOrder
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -67,7 +68,11 @@ public class VillagerTradeEnchantedBookInfo {
             return ret;
         }
 
-        for (MerchantOffer tradeOffer : offers) {
+        // Snapshot the offers: the integrated server thread mutates the list every tick
+        // (demand recalculation) while we iterate it on the render thread.
+        List<MerchantOffer> offersSnapshot = new ArrayList<>(offers);
+
+        for (MerchantOffer tradeOffer : offersSnapshot) {
             ItemStack sellItem = tradeOffer.getResult();
             ItemStackCompat sellItemCompat = ItemStackCompat.of(sellItem);
 

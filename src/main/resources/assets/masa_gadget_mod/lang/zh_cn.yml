@@ -50,6 +50,9 @@ masa_gadget_mod:
       renderZombieVillagerConvertTime:
         name: 渲染僵尸村民转换时间
         comment: 在僵尸村民附近渲染转换时间。
+      renderInfoSeeThrough:
+        name: 渲染实体信息穿墙
+        comment: 实体信息（村民交易补货冷却、村民交易附魔书、僵尸村民转换时间）将穿透方块渲染。
       syncAllEntityData:
         name: 同步所有实体数据
         comment: 使用 §7pca同步协议§r 同步全部实体数据。
